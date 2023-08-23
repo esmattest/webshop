@@ -1,6 +1,7 @@
 import { cart } from "./cart.js";
 import { products } from "./products.js";
-import { renderCartItem } from "./cartoverview.js";
+import { vouchers } from "./vourchers.js";
+import { renderCheckoutProducts } from "./checkout.js";
 
 const imagePath = "images/";
 const cartItems = document.querySelector(".cart_items");
@@ -63,6 +64,7 @@ const renderItems = () => {
             removeCartItem(productId);
         });
     });
+    renderCheckoutProducts();
 };
 
 const addToCartHandler = (cartEntry) => {
@@ -83,7 +85,17 @@ function removeCartItem(productId) {
     if (removeitem >= 0) {
         cart.splice(removeitem, 1);
         renderItems();
+
+        if (cart.length === 0) {
+            removeAllCoupons();
+        }
     }
+}
+
+function removeAllCoupons() {
+    vouchers.splice(0, vouchers.length);
+    const gutscheinElement = document.getElementById("gutschein");
+    gutscheinElement.innerHTML = "";
 }
 
 function increaseQty(productId) {

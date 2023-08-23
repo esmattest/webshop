@@ -1,11 +1,7 @@
 import { cart } from "./cart.js";
 import { products } from "./products.js";
-import {
-    renderItems,
-    increaseQty,
-    desincreaseQty,
-    removeCartItem,
-} from "./cartview.js";
+import { vouchers } from "./vourchers.js";
+import { renderCheckoutProducts } from "./checkout.js";
 
 const imagePath = "images/";
 const cartSection = document.querySelector(".viewcart tbody");
@@ -58,17 +54,16 @@ const renderCartItem = () => {
     cartSection.innerHTML = cartItemHTML.join("");
 
     renderTotal();
+    renderCheckoutProducts();
 };
 
-const renderTotal = (coupon) => {
+const renderTotal = () => {
     let totalPrice = 0;
-    console.log("total", coupon);
 
     cart.map((cartEntry) => {
         const cartProduct = products.find(
             (product) => product.id === cartEntry.productId
         );
-
         if (cartProduct) {
             const zwischensumme = cartEntry.qty * cartProduct.price;
             totalPrice += zwischensumme;
@@ -79,7 +74,13 @@ const renderTotal = (coupon) => {
     const gesamt = document.getElementById("gesamtsumme");
 
     subtotalCell.textContent = `${totalPrice.toFixed(2)}€`;
-    gesamt.textContent = `${totalPrice.toFixed(2)}€`;
+
+    const appliedVouchers = vouchers.filter((voucher) => voucher.used === true);
+    const totalDiscount = appliedVouchers.reduce(
+        (sum, voucher) => sum + voucher.price,
+        0
+    );
+    gesamt.textContent = `${(totalPrice - totalDiscount).toFixed(2)}€`;
 };
 
 export { renderCartItem, renderTotal };

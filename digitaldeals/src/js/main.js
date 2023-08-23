@@ -1,15 +1,15 @@
-import { renderProductsSection } from "./productsview.js";
-import { cart } from "./cart.js";
-import { products } from "./products.js";
-import {
-    renderItems,
-    addToCartHandler,
-    removeCartItem,
-    increaseQty,
-    desincreaseQty,
-} from "./cartview.js";
 import { renderCartItem, renderTotal } from "./cartoverview.js";
+import {
+    addToCartHandler,
+    desincreaseQty,
+    increaseQty,
+    removeCartItem,
+    renderItems,
+} from "./cartview.js";
+import { products } from "./products.js";
+import { renderProductsSection } from "./productsview.js";
 import { vouchers } from "./vourchers.js";
+import { renderCheckoutProducts } from "./checkout.js";
 
 const allowedRoutes = [
     "home",
@@ -41,7 +41,10 @@ const handleLocation = () => {
         } else {
             if (hash === "products") {
                 section.innerHTML = renderProductsSection(products);
+            } else if (hash === "cart") {
+                renderCartItem();
             }
+
             section.style.display = "";
         }
     });
@@ -70,11 +73,7 @@ smallImagesGroup.onclick = function (event) {
     mainImg.src = event.target.src;
 };
 
-const subtotalCell = document.getElementById("zwischensumme");
-const coupon = document.getElementById("gutschein");
-const gesamt = document.getElementById("gesamtsumme");
-const coupanButton = document.getElementById("coupan-button");
-const coupanInput = document.getElementById("coupon-input");
+const couponInput = document.getElementById("coupon-input");
 
 window.addEventListener("click", (event) => {
     const target = event.target;
@@ -107,26 +106,30 @@ window.addEventListener("click", (event) => {
         const productId = target.getAttribute("data-id");
         removeCartItem(productId);
     } else if (target.getAttribute("data-action") === "apply-coupon") {
-        const coupanCode = coupanInput.value;
+        const couponCode = couponInput.value;
+        const filteredCoupon = vouchers.find((item) => item.id === couponCode);
 
-        const filterCoupan = vouchers.find((item) => item.id === coupanCode);
-
-        if (filterCoupan) {
-            if (coupon.textContent !== filterCoupan.name) {
-                coupon.textContent = filterCoupan.name;
-
-                renderTotal(coupon);
-            } else {
-                alert("Gutschein wurde bereits verwendet.");
-            }
-        } else {
+        if (!filteredCoupon) {
             alert("Ungültiger Gutscheincode.");
+            return;
         }
+
+        if (filteredCoupon.used) {
+            alert("Gutschein wurde bereits verwendet.");
+            return;
+        }
+
+        filteredCoupon.used = true;
+        const gutscheinElement = document.getElementById("gutschein");
+        gutscheinElement.innerHTML += `<div>-${filteredCoupon.name}</div>`;
+        renderTotal();
+        couponInput.value = "";
     }
 
     renderItems();
     renderCartItem();
     renderTotal();
+    renderCheckoutProducts();
 });
 
 const openBtn = document.getElementById("open_cart_btn");
@@ -142,6 +145,8 @@ backdrop.addEventListener("click", closeCart);
 function openCart() {
     sidecart.classList.add("open");
     backdrop.classList.add("show");
+    renderItems();
+    renderTotal();
 }
 
 //close Cart
@@ -153,13 +158,16 @@ function closeCart() {
 const cartBtn = document.querySelector(".cartBtn");
 cartBtn.addEventListener("click", () => {
     window.location.href = "#cart";
-
     closeCart();
 });
 
 const checkoutBtn = document.querySelector(".checkoutBtn");
 checkoutBtn.addEventListener("click", () => {
     window.location.href = "#checkout";
-
     closeCart();
+});
+
+const checkout = document.getElementById("zurkasse");
+checkout.addEventListener("click", () => {
+    window.location.href = "#checkout";
 });

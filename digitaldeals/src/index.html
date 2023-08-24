@@ -251,10 +251,10 @@
           <h1>Checkout</h1>
         </div>
 
-        <div class="flex-row">
-          <div class="checkout-form">
-            <h1>Checkout</h1>
-            <form action="#!" method="get">
+        <form action="#message" method="get">
+          <div class="flex-row">
+            <div class="checkout-form">
+              <h1>Checkout</h1>
               <h4>Kontakt Informationen</h4>
               <div class="form-control">
                 <label for="checkout-email">E-mail</label>
@@ -265,6 +265,7 @@
                     id="checkout-email"
                     name="checkout-email"
                     placeholder="E-Mail-Adresse..."
+                    required
                   />
                 </div>
               </div>
@@ -277,6 +278,7 @@
                     name="checkout-phone"
                     id="checkout-phone"
                     placeholder="Telefon..."
+                    required
                   />
                 </div>
               </div>
@@ -291,6 +293,7 @@
                     id="checkout-name"
                     name="checkout-name"
                     placeholder="Name..."
+                    required
                   />
                 </div>
               </div>
@@ -303,6 +306,7 @@
                     name="checkout-address"
                     id="checkout-address"
                     placeholder="Anschreiben..."
+                    required
                   />
                 </div>
               </div>
@@ -315,6 +319,7 @@
                     name="checkout-city"
                     id="checkout-city"
                     placeholder="Ort/Stadt..."
+                    required
                   />
                 </div>
               </div>
@@ -329,6 +334,7 @@
                       id="checkout-country"
                       placeholder="Regierung..."
                       list="country-list"
+                      required
                     />
                     <datalist id="country-list">
                       <option value="India"></option>
@@ -349,6 +355,7 @@
                       name="checkout-postal"
                       id="checkout-postal"
                       placeholder="PLZ..."
+                      required
                     />
                   </div>
                 </div>
@@ -364,119 +371,117 @@
                     name="checkout-address"
                     id="checkout-bestellung-info"
                     placeholder="Infos..."
+                    required
                   />
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
 
-          <div class="checkout-details">
-            <div class="checkout-details-inner">
-              <div class="checkout-lists"></div>
-              <div class="checkout-subtotal">
-                <h6>Zwishcensumme</h6>
-                <p>2180€</p>
-              </div>
-              <div class="checkout-shipping">
-                <h6>Lieferung</h6>
-                <p>5€</p>
-              </div>
-              <div class="checkout-total">
-                <h6>Gesamt</h6>
-                <p>2185€</p>
-              </div>
-              <br />
-              <hr />
-              <h3 class="zahlung">Zahlarten</h3>
-              <div class="form-check">
-                <input
-                  id="visaCard"
-                  name="paymentMethod"
-                  type="radio"
-                  class="form-check-input"
-                  value="louie"
-                  checked
-                  required
-                />
-                <i class="fa-brands fa-cc-visa"></i>
-                <input
-                  id="masterCard"
-                  name="paymentMethod"
-                  type="radio"
-                  class="form-check-input"
-                  value="louie"
-                  checked
-                  required
-                />
-                <i class="fa-brands fa-cc-mastercard"></i>
-                <input
-                  id="pay"
-                  name="paymentMethod"
-                  type="radio"
-                  class="form-check-input"
-                  value="louie"
-                  checked
-                  required
-                />
-                <i class="fa-brands fa-cc-apple-pay"></i>
-                <input
-                  id="payPal"
-                  name="paymentMethod"
-                  type="radio"
-                  class="form-check-input"
-                  value="louie"
-                  checked
-                  required
-                />
-                <i class="fa-brands fa-paypal"></i>
-              </div>
-
-              <div class="form-group">
-                <div class="form-control">
-                  <label for="checkout-postal">Empfänger</label>
-                  <div>
-                    <span class="fa fa-user-circle"></span>
-                    <input
-                      type="text"
-                      name="checkout-name"
-                      id="checkout-name"
-                      placeholder="Empfänger..."
-                    />
-                  </div>
-                  <div class="form-control">
-                    <label for="checkout-iban">IBAN</label>
-                    <div>
-                      <span class="fa fa-credit-card"></span>
-                      <input
-                        type="text"
-                        name="checkout-iban"
-                        id="checkout-iban"
-                        placeholder="IBAN..."
-                      />
-                    </div>
-                  </div>
+            <div class="checkout-details">
+              <div class="checkout-details-inner">
+                <div class="checkout-lists"></div>
+                <div class="checkout-total">
+                  <h6>Gesamt</h6>
+                  <p id="gesamtsumme">0.00€</p>
                 </div>
+                <br />
+                <hr />
+                <h3 class="zahlung">Zahlarten</h3>
+                <div class="form-check">
+                  <input
+                    id="visaCard"
+                    name="paymentMethod"
+                    type="radio"
+                    class="form-check-input"
+                    value="louie"
+                    checked
+                    required
+                  />
+                  <i class="fa-brands fa-cc-visa"></i>
+                  <input
+                    id="masterCard"
+                    name="paymentMethod"
+                    type="radio"
+                    class="form-check-input"
+                    value="louie"
+                    checked
+                    required
+                  />
+                  <i class="fa-brands fa-cc-mastercard"></i>
+                  <input
+                    id="pay"
+                    name="paymentMethod"
+                    type="radio"
+                    class="form-check-input"
+                    value="louie"
+                    checked
+                    required
+                  />
+                  <i class="fa-brands fa-cc-apple-pay"></i>
+                  <input
+                    id="payPal"
+                    name="paymentMethod"
+                    type="radio"
+                    class="form-check-input"
+                    value="louie"
+                    checked
+                    required
+                  />
+                  <i class="fa-brands fa-paypal"></i>
+                </div>
+
                 <div class="form-group">
                   <div class="form-control">
-                    <label for="checkout-bic">BIC</label>
+                    <label for="checkout-postal">Empfänger</label>
                     <div>
-                      <span class="fa fa-credit-card"></span>
+                      <span class="fa fa-user-circle"></span>
                       <input
                         type="text"
-                        name="checkout-bic"
-                        id="checkout-bic"
-                        placeholder="BIC..."
+                        name="checkout-name"
+                        id="checkout-name"
+                        placeholder="Empfänger..."
+                        required
                       />
+                    </div>
+                    <div class="form-control">
+                      <label for="checkout-iban">IBAN</label>
+                      <div>
+                        <span class="fa fa-credit-card"></span>
+                        <input
+                          type="text"
+                          name="checkout-iban"
+                          id="checkout-iban"
+                          placeholder="IBAN..."
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-control">
+                      <label for="checkout-bic">BIC</label>
+                      <div>
+                        <span class="fa fa-credit-card"></span>
+                        <input
+                          type="text"
+                          name="checkout-bic"
+                          id="checkout-bic"
+                          placeholder="BIC..."
+                          required
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-control-btn">
-                <button class="button">Bestellung Augeben</button>
+                <div class="form-control-btn">
+                  <button type="submit" class="button">
+                    Bestellung Aufgeben
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </section>
 
       <section id="message">
